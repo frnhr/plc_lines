@@ -7,6 +7,9 @@ class PLC(models.Model):
     expected_value = models.CharField(
         max_length=100, null=False, blank=True, default="")
 
+    class Meta:
+        verbose_name = "PLC"
+
     def __str__(self):
         return self.ip
 
