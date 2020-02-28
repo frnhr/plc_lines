@@ -10,6 +10,7 @@ django = "^3.0.3"
 pylogix = {git = "https://github.com/dmroeder/pylogix"}
 
 [tool.poetry.dev-dependencies]
+model-mommy = "^2.0.0"
 
 [build-system]
 requires = ["poetry>=0.12"]

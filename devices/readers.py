@@ -1,4 +1,7 @@
+from __future__ import annotations
+
 import json
+from typing import Optional
 
 from django.conf import settings
 from pylogix.eip import Response, PLC
@@ -12,11 +15,11 @@ SUCCESS_STATUSES = ("Success", "Partial transfer")
 
 
 class ReaderBase:
-    def __init__(self, ip, variable):
+    def __init__(self, ip, variable) -> None:
         self.ip = ip
         self.variable = variable
 
-    def read(self):
+    def read(self) -> Optional[str]:
         try:
             response = self._read()
         except NotImplementedError:
@@ -26,7 +29,7 @@ class ReaderBase:
         if response.Status not in SUCCESS_STATUSES:
             raise ReaderError(response.Status)
         # TODO Do we need to continue reading if get 0x06 Partial transfer?
-        return response.Value
+        return str(response.Value) if response is not None else None
 
     def _read(self) -> Response:
         raise NotImplementedError()
