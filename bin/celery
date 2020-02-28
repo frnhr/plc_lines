@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# This is a quick and dirty way of running Celery.
+# Should be used for local development only, similar to runserver!
+
+# Ref: http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#starting-the-scheduler
+
+celery -A _plc_lines worker \
+       --loglevel info \
+       --beat \
+       --scheduler django_celery_beat.schedulers:DatabaseScheduler
+

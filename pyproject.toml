@@ -15,7 +15,42 @@ redis = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 model-mommy = "^2.0.0"
-coverage = "^5.0.3"
+coverage = {extras = ["toml"], version = "^5.0.3"}
+flake8 = "^3.7.9"
+flake8-bugbear = "^20.1.4"
+black = "^19.10b0"
+
+[tool.coverage.run]
+source = ["."]
+omit = [
+    "*/.local/*",
+    "*/tests/*",
+    "*/migrations/*",
+]
+
+[tool.black]
+line-length = 79
+target-version = ['py38']
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
 
 [build-system]
 requires = ["poetry>=0.12"]

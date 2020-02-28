@@ -17,7 +17,8 @@ class PLCModelTest(TestCase):
         expected = "some ip"
         self.assertEquals(expected, str(plc))
 
-    @override_settings(PLC_READER_CLASS="devices.tests.test_models.DummyReader")
+    @override_settings(
+        PLC_READER_CLASS="devices.tests.test_models.DummyReader")
     def test_get_reader_class(self):
         reader_class = PLC.get_reader_class()
         self.assertTrue(issubclass(reader_class, DummyReader))

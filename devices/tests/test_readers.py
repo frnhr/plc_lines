@@ -65,7 +65,7 @@ class FakeReaderTest(SimpleTestCase):
 
     def test_wrong_ip(self):
         reader = FakeReader("this is not an IP!!", "TestFoo")
-        with self.assertRaises(ReaderError) as reader_error:
+        with self.assertRaises(ReaderError):
             reader.read()
 
     def test_multiple_ips(self):
