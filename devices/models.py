@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta, time
-from typing import Optional, Type, Dict, Iterator, Tuple, Iterable
+from typing import Optional, Type, Iterator, Tuple, Iterable
 
 import pytz
 from django.conf import settings

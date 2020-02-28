@@ -1,9 +1,8 @@
 import json
 import os
-from datetime import timedelta, datetime
+from datetime import timedelta
 
 import pdfkit
-import pytz
 from django.conf import settings
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
@@ -85,7 +84,8 @@ class PLCChartView(FormView):
             settings.BASE_DIR, "devices/static/devices/pdf_chart.css")
         pdf = pdfkit.from_string(content, False, options=options, css=css)
         response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="PLC_Chart.pdf"'
+        response['Content-Disposition'] = (
+            'attachment; filename="PLC_Lines.pdf"')
         return response
 
     def get_chart_data(self):
