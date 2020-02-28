@@ -20,3 +20,7 @@ urlpatterns = [
     path("", admin.site.urls),
 ]
 # TODO serve media if needed
+
+
+admin.site.site_header = "PLC Line"
+admin.site.index_title = "Home"
