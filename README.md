@@ -2,7 +2,15 @@
 
 Because I have no idea what lies are we taking about.
 
-## TODO
- - [ ] blacken
- - [ ] flake8en
- 
+## Setup
+
+### Mac
+```
+brew install Caskroom/cask/wkhtmltopdf
+```
+
+### Debian
+
+```
+sudo apt-get -y install wkhtmltopdf
+```

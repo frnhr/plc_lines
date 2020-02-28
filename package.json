@@ -4,7 +4,7 @@
   "description": "Because I have no idea what lies are we taking about.",
   "main": "index.js",
   "dependencies": {
-    "apexcharts": "^3.16.0"
+    "d3": "^5.15.0"
   },
   "devDependencies": {},
   "scripts": {
