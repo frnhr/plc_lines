@@ -1,7 +1,10 @@
+from datetime import datetime, time, timedelta
 from unittest import mock
 
 from django.test import TestCase, override_settings
+from freezegun import freeze_time
 from model_mommy import mommy
+from pytz import UTC
 
 from ..models import PLC, Alert
 from ..readers import ReaderError
@@ -119,3 +122,160 @@ class AlertTest(TestCase):
         value = str(alert)
         self.assertIn("DOWN", value)
         self.assertIn("myip", value)
+
+
+class UptimeTest(TestCase):
+    def test_multiple_1(self):
+        day = datetime(2011, 12, 13, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-12 12:00"):  # previous alert
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 12:00"):  # at 50%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        with freeze_time("2011-12-13 16:48"):  # at 70%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 21:36"):  # at 90%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        value = list(plc.get_uptimes(day, day))
+        expected = [(day, 0.7)]
+        self.assertEquals(expected, value)
+
+    def test_multiple_wo_previous(self):
+        day = datetime(2011, 12, 13, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-13 12:00"):  # at 50%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 16:48"):  # at 70%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        with freeze_time("2011-12-13 21:36"):  # at 90%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        value = list(plc.get_uptimes(day, day))
+        expected = [(day, 0.3)]
+        self.assertEquals(expected, value)
+
+    def test_no_alerts(self):
+        day = datetime(2011, 12, 13, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        value = list(plc.get_uptimes(day, day))
+        expected = [(day, 0.0)]
+        self.assertEquals(expected, value)
+
+    def test_only_previous(self):
+        day = datetime(2011, 12, 13, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-12 12:00"):  # previous alert
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        value = list(plc.get_uptimes(day, day))
+        expected = [(day, 1.0)]
+        self.assertEquals(expected, value)
+
+    def test_redundant_alerts(self):
+        day = datetime(2011, 12, 13, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-12 12:00"):  # previous alert
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 12:00"):  # at 50%
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        value = list(plc.get_uptimes(day, day))
+        expected = [(day, 1.0)]
+        self.assertEquals(expected, value)
+
+    def test_two_days(self):
+        day1 = datetime(2011, 12, 13, tzinfo=UTC)
+        day2 = datetime(2011, 12, 14, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-12 12:00"):  # previous alert
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 12:00"):  # at 50% day 1
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        with freeze_time("2011-12-14 21:36"):  # at 90% day 2
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        value = list(plc.get_uptimes(day1, day2))
+        expected = [(day1, 0.5), (day2, 0.1)]
+        self.assertEquals(expected, value)
+
+    def test_four_days(self):
+        day1 = datetime(2011, 12, 13, tzinfo=UTC)
+        day2 = datetime(2011, 12, 14, tzinfo=UTC)
+        day3 = datetime(2011, 12, 15, tzinfo=UTC)
+        day4 = datetime(2011, 12, 16, tzinfo=UTC)
+        plc: PLC = mommy.make(PLC)
+        with freeze_time("2011-12-12 12:00"):  # previous alert
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-13 12:00"):  # at 50% day 1
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        with freeze_time("2011-12-14 21:36"):  # at 90% day 2
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=1,
+            )
+        with freeze_time("2011-12-16 16:48"):  # at 70% day 4
+            mommy.make(
+                Alert,
+                plc=plc,
+                online=0,
+            )
+        value = list(plc.get_uptimes(day1, day4))
+        expected = [(day1, 0.5), (day2, 0.1), (day3, 1.0), (day4, 0.7)]
+        self.assertEquals(expected, value)

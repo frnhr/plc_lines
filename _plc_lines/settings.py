@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     "admin_action_buttons",
     "devices",
 ]
+if DEBUG:
+    INSTALLED_APPS += [
+        "django_extensions",
+    ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -16,16 +16,16 @@ function renderChart() {
         height = 300 - margin.top - margin.bottom;
 
     // Parse the date / time
-    var parseDate = d3.timeParse("%b %Y");
+    var parseDate = d3.timeParse("%Y-%m-%d");
 
     // Set the ranges
     var x = d3.scaleTime().range([0, width]);
     var y = d3.scaleLinear().range([height, 0]);
 
     // Define the line
-    var priceline = d3.line()
+    var plcline = d3.line()
         .x(function(d) { return x(d.date); })
-        .y(function(d) { return y(d.price); });
+        .y(function(d) { return y(d.uptime); });
 
     // Adds the svg canvas
     var svg = d3.select("body")
@@ -39,12 +39,11 @@ function renderChart() {
     // Prepare the data
     window.data.forEach(function(d) {
         d.date = parseDate(d.date);
-        d.price = +d.price;
     });
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.date; }));
-    y.domain([0, d3.max(data, function(d) { return d.price; })]);
+    y.domain([0, d3.max(data, function(d) { return d.uptime; })]);
 
     // Nest the entries by symbol
     var dataNest = d3.nest()
@@ -64,7 +63,7 @@ function renderChart() {
             .style("stroke", function() { // Add the colours dynamically
                 return d.color = color(d.key); })
             .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign an ID
-            .attr("d", priceline(d.values));
+            .attr("d", plcline(d.values));
 
         // Add the Legend
         svg.append("text")
