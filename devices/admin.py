@@ -17,6 +17,10 @@ class PLCAdmin(admin.ModelAdmin):
 
 @admin.register(Alert)
 class AlertAdmin(admin.ModelAdmin):
+    list_display = ("timestamp", "plc", "online")
+    list_filter = ("timestamp", "online")
+    search_fields = ("plc__ip",)
+
     def has_add_permission(self, request) -> bool:
         return False
 
