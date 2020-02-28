@@ -85,6 +85,7 @@ class PLCChartView(FormView):
             settings.BASE_DIR, "devices/static/devices/pdf_chart.css")
         pdf = pdfkit.from_string(content, False, options=options, css=css)
         response = HttpResponse(pdf, content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="PLC_Chart.pdf"'
         return response
 
     def get_chart_data(self):
@@ -96,7 +97,7 @@ class PLCChartView(FormView):
         start = data["date_min"]
         end = data["date_max"]
         date_range = (start + timedelta(days=x)
-                      for x in range(0, (end - start).days))
+                      for x in range(0, (end - start).days + 1))
         plcs = data["plcs"]
         plc_ids = plcs.values_list("id", flat=True)
         uptimes = PLC.get_multiple_uptimes(plc_ids, start, end)

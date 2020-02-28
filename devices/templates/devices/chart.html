@@ -31,13 +31,14 @@
             </label>
         </div>
         <div>
-            <label>
+            <label for="{{ form.plcs.auto_id }}">
                 {{ form.plcs.label }}:
-                {{ form.plcs.errors }}
-                {{ form.plcs }}
             </label>
+            {{ form.plcs.errors }}
+            {{ form.plcs }}
         </div>
-        <button>Draw</button>
+        <button type="submit">Draw</button>
+        <button type="submit" name="export" value="pdf">PDF</button>
     </form>
 
     <div class="chart"></div>
