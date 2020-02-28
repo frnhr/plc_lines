@@ -16,8 +16,7 @@
 
 {% block footer %}
     <hr />
-    <hr />
-    <iframe src="{% url 'devices:plc_chart' %}" class="chart_iframe">
+    <iframe src="{% url 'devices:plc_chart' %}" data-src="{% url 'devices:plc_chart' %}" class="chart_iframe">
         <a href="{% url 'devices:plc_chart' %}">Chart</a>
     </iframe>
     {{ block.super }}

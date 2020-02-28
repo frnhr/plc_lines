@@ -1,0 +1,8 @@
+/*
+This files is loaded directly by pdfkit when generating PDF
+Use it for differences between screen and PDF styling of the PLC chart.
+*/
+
+.screenOnly {
+    display: none;
+}
