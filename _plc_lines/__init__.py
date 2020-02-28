@@ -10,4 +10,5 @@ from django.contrib import admin
 
 if ActionButtonsMixin not in admin.ModelAdmin.__bases__:
     admin.ModelAdmin.__bases__ = (
-            (ActionButtonsMixin,) + admin.ModelAdmin.__bases__)
+        ActionButtonsMixin,
+    ) + admin.ModelAdmin.__bases__

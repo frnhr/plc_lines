@@ -8,7 +8,7 @@ from django.test import SimpleTestCase, override_settings
 
 from devices.readers import FakeReader, ReaderError, ReaderBase, PLCReader
 
-FAKE_READER_FILE = os.path.join(settings.BASE_DIR, 'FAKE_PLC.test.json')
+FAKE_READER_FILE = os.path.join(settings.BASE_DIR, "FAKE_PLC.test.json")
 Undefined = object()
 
 
@@ -24,8 +24,7 @@ class ReaderBaseTest(SimpleTestCase):
         self.assertEquals("bar", reader.variable)
 
 
-@override_settings(
-    FAKE_READER_FILE=FAKE_READER_FILE)
+@override_settings(FAKE_READER_FILE=FAKE_READER_FILE)
 class FakeReaderTest(SimpleTestCase):
 
     DEFAULT_RESPONSE_KWARGS = {
@@ -45,8 +44,9 @@ class FakeReaderTest(SimpleTestCase):
         ip_kwargs = ip_kwargs or {}
         for ip, kwargs in ip_kwargs.items():
             if ip not in self.response_kwargs:
-                self.response_kwargs[ip] = (
-                    self.DEFAULT_RESPONSE_KWARGS["fake ip"].copy())
+                self.response_kwargs[ip] = self.DEFAULT_RESPONSE_KWARGS[
+                    "fake ip"
+                ].copy()
             for attr in ("tag_name", "value", "status"):
                 if attr in kwargs:
                     self.response_kwargs[ip][attr] = kwargs[attr]
@@ -86,7 +86,8 @@ class PLCReaderTest(SimpleTestCase):
         mock_manager = p_PLC.return_value
         mock_comm = mock_manager.__enter__.return_value
         mock_response = MagicMock(
-            TagName="MyTag", Value="42", Status="Success")
+            TagName="MyTag", Value="42", Status="Success"
+        )
         mock_comm.Read.return_value = mock_response
 
         reader = PLCReader(ip, variable)
@@ -103,7 +104,8 @@ class PLCReaderTest(SimpleTestCase):
         mock_manager = p_PLC.return_value
         mock_comm = mock_manager.__enter__.return_value
         mock_response = MagicMock(
-            TagName="MyTag", Value="42", Status="KABOOOOM!!")
+            TagName="MyTag", Value="42", Status="KABOOOOM!!"
+        )
         mock_comm.Read.return_value = mock_response
 
         reader = PLCReader(ip, variable)

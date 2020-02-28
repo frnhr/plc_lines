@@ -56,30 +56,32 @@ class PLC(models.Model):
             self.alerts.create(online=online)
 
     def get_uptimes(
-            self, date_min: date, date_max: date
+        self, date_min: date, date_max: date
     ) -> Iterator[Tuple[date, float]]:
         tzinfo = pytz.timezone(settings.TIME_ZONE)
-        datetime_min = datetime.combine(
-            date_min, time(0, 0, 0), tzinfo=tzinfo)
+        datetime_min = datetime.combine(date_min, time(0, 0, 0), tzinfo=tzinfo)
         datetime_max = datetime.combine(
-            date_max + timedelta(days=1),
-            time(0, 0, 0),
-            tzinfo=tzinfo,
+            date_max + timedelta(days=1), time(0, 0, 0), tzinfo=tzinfo,
         )
-        alerts = list(self.alerts.filter(
-            timestamp__gte=datetime_min, timestamp__lt=datetime_max))
+        alerts = list(
+            self.alerts.filter(
+                timestamp__gte=datetime_min, timestamp__lt=datetime_max
+            )
+        )
         previous_alert = self.alerts.filter(timestamp__lt=datetime_min).last()
         last_online = previous_alert.online if previous_alert else False
         day = date_min
         while day <= date_max:
             start_of_next_day = datetime.combine(
-                day + timedelta(days=1), time(0, 0, 0), tzinfo=tzinfo)
+                day + timedelta(days=1), time(0, 0, 0), tzinfo=tzinfo
+            )
             uptime_fraction = float(last_online)  # bools are ints :)
             while alerts and alerts[0].timestamp < start_of_next_day:
                 alert = alerts.pop(0)
                 remaining_slice_of_day = start_of_next_day - alert.timestamp
                 remaining_fraction_of_day = (
-                    remaining_slice_of_day.total_seconds() / SECONDS_IN_DAY)
+                    remaining_slice_of_day.total_seconds() / SECONDS_IN_DAY
+                )
                 if alert.online != last_online:
                     if alert.online:
                         uptime_fraction += remaining_fraction_of_day
@@ -91,13 +93,15 @@ class PLC(models.Model):
 
     @classmethod
     def get_multiple_uptimes(
-            cls, plc_ids: Iterable[int], date_min: date, date_max: date):
+        cls, plc_ids: Iterable[int], date_min: date, date_max: date
+    ):
         plcs = cls.objects.all()
 
         return {
             plc.id: (
                 dict(plc.get_uptimes(date_min, date_max))
-                if plc.id in plc_ids else {}
+                if plc.id in plc_ids
+                else {}
             )
             for plc in plcs
         }

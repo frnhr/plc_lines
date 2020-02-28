@@ -81,10 +81,9 @@ STATICFILES_FINDERS = [
 ]
 NPM_ROOT_PATH = BASE_DIR
 NPM_FILE_PATTERNS = {
-    'd3': ['dist/*'],
-    'jquery': ['dist/*'],
-    'jquery-ui-dist': ['*'],
-
+    "d3": ["dist/*"],
+    "jquery": ["dist/*"],
+    "jquery-ui-dist": ["*"],
 }
 
 WSGI_APPLICATION = "_plc_lines.wsgi.application"

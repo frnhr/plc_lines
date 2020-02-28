@@ -40,14 +40,14 @@ class PLCChartView(FormView):
         Careful! We are using the form with query params and GET method.
         """
         kwargs = {
-            'initial': self.get_initial(),
-            'prefix': self.get_prefix(),
+            "initial": self.get_initial(),
+            "prefix": self.get_prefix(),
         }
 
         if self.request.GET.get("date_min") is not None:
-            kwargs.update({
-                'data': self.request.GET,
-            })
+            kwargs.update(
+                {"data": self.request.GET,}
+            )
         return kwargs
 
     def get_initial(self):
@@ -69,23 +69,25 @@ class PLCChartView(FormView):
         content = response.rendered_content.strip()
 
         options = {
-            'page-size': 'A4',
-            'javascript-delay': 100,
-            'no-stop-slow-scripts': None,
+            "page-size": "A4",
+            "javascript-delay": 100,
+            "no-stop-slow-scripts": None,
             # 'debug-javascript': None,
             "enable-javascript": None,
-            'margin-top': '0.75in',
-            'margin-right': '0.75in',
-            'margin-bottom': '0.75in',
-            'margin-left': '0.75in',
-            'encoding': "UTF-8",
+            "margin-top": "0.75in",
+            "margin-right": "0.75in",
+            "margin-bottom": "0.75in",
+            "margin-left": "0.75in",
+            "encoding": "UTF-8",
         }
         css = os.path.join(
-            settings.BASE_DIR, "devices/static/devices/pdf_chart.css")
+            settings.BASE_DIR, "devices/static/devices/pdf_chart.css"
+        )
         pdf = pdfkit.from_string(content, False, options=options, css=css)
-        response = HttpResponse(pdf, content_type='application/pdf')
-        response['Content-Disposition'] = (
-            'attachment; filename="PLC_Lines.pdf"')
+        response = HttpResponse(pdf, content_type="application/pdf")
+        response[
+            "Content-Disposition"
+        ] = 'attachment; filename="PLC_Lines.pdf"'
         return response
 
     def get_chart_data(self):
@@ -96,8 +98,9 @@ class PLCChartView(FormView):
             data = form.cleaned_data
         start = data["date_min"]
         end = data["date_max"]
-        date_range = (start + timedelta(days=x)
-                      for x in range(0, (end - start).days + 1))
+        date_range = (
+            start + timedelta(days=x) for x in range(0, (end - start).days + 1)
+        )
         plcs = data["plcs"]
         plc_ids = plcs.values_list("id", flat=True)
         uptimes = PLC.get_multiple_uptimes(plc_ids, start, end)

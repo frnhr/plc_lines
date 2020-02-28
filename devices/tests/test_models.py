@@ -21,7 +21,8 @@ class PLCModelTest(TestCase):
         self.assertEquals(expected, str(plc))
 
     @override_settings(
-        PLC_READER_CLASS="devices.tests.test_models.DummyReader")
+        PLC_READER_CLASS="devices.tests.test_models.DummyReader"
+    )
     def test_get_reader_class(self):
         reader_class = PLC.get_reader_class()
         self.assertTrue(issubclass(reader_class, DummyReader))
@@ -130,27 +131,19 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-12 12:00"):  # previous alert
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 12:00"):  # at 50%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         with freeze_time("2011-12-13 16:48"):  # at 70%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 21:36"):  # at 90%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         value = list(plc.get_uptimes(day, day))
         expected = [(day, 0.7)]
@@ -161,21 +154,15 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-13 12:00"):  # at 50%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 16:48"):  # at 70%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         with freeze_time("2011-12-13 21:36"):  # at 90%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         value = list(plc.get_uptimes(day, day))
         expected = [(day, 0.3)]
@@ -193,9 +180,7 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-12 12:00"):  # previous alert
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         value = list(plc.get_uptimes(day, day))
         expected = [(day, 1.0)]
@@ -206,15 +191,11 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-12 12:00"):  # previous alert
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 12:00"):  # at 50%
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         value = list(plc.get_uptimes(day, day))
         expected = [(day, 1.0)]
@@ -226,21 +207,15 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-12 12:00"):  # previous alert
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 12:00"):  # at 50% day 1
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         with freeze_time("2011-12-14 21:36"):  # at 90% day 2
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         value = list(plc.get_uptimes(day1, day2))
         expected = [(day1, 0.5), (day2, 0.1)]
@@ -254,27 +229,19 @@ class UptimeTest(TestCase):
         plc: PLC = mommy.make(PLC)
         with freeze_time("2011-12-12 12:00"):  # previous alert
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-13 12:00"):  # at 50% day 1
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         with freeze_time("2011-12-14 21:36"):  # at 90% day 2
             mommy.make(
-                Alert,
-                plc=plc,
-                online=1,
+                Alert, plc=plc, online=1,
             )
         with freeze_time("2011-12-16 16:48"):  # at 70% day 4
             mommy.make(
-                Alert,
-                plc=plc,
-                online=0,
+                Alert, plc=plc, online=0,
             )
         value = list(plc.get_uptimes(day1, day4))
         expected = [(day1, 0.5), (day2, 0.1), (day3, 1.0), (day4, 0.7)]
