@@ -70,6 +70,15 @@ TEMPLATES = [
         },
     },
 ]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+    "npm.finders.NpmFinder",
+]
+NPM_ROOT_PATH = BASE_DIR
+NPM_FILE_PATTERNS = {
+    'apexcharts': ['dist/*'],
+}
 
 WSGI_APPLICATION = "_plc_lines.wsgi.application"
 

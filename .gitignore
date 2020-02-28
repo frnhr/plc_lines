@@ -136,3 +136,5 @@ dmypy.json
 
 
 # project-specific
+_plc_lines/static
+node_modules
