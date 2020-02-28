@@ -56,6 +56,7 @@ class PLCChartView(FormView):
         return {
             "date_min": today - timedelta(days=31),
             "date_max": today,
+            "plcs": PLC.objects.all(),
         }
 
     def get_context_data(self, **kwargs):
@@ -96,7 +97,7 @@ class PLCChartView(FormView):
         end = data["date_max"]
         date_range = (start + timedelta(days=x)
                       for x in range(0, (end - start).days))
-        plcs = PLC.objects.all()
+        plcs = data["plcs"]
         plc_ids = plcs.values_list("id", flat=True)
         uptimes = PLC.get_multiple_uptimes(plc_ids, start, end)
         data = [
