@@ -161,6 +161,14 @@ bcrypt = ["bcrypt"]
 
 [[package]]
 category = "main"
+description = "Django admin tweak that replaces list action dropdown with buttons"
+name = "django-admin-action-buttons"
+optional = false
+python-versions = "*"
+version = "0.1.4"
+
+[[package]]
+category = "main"
 description = "Database-backed Periodic Tasks."
 name = "django-celery-beat"
 optional = false
@@ -401,7 +409,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 version = "1.3.0"
 
 [metadata]
-content-hash = "fd7098a3567d27d920e4b00a090978a9b3be6470da75154292da66f8953e9dc0"
+content-hash = "64dc89c16813feff9f429426f902333c014580b69ce7537a410f3309f333f7b7"
 python-versions = "^3.8"
 
 [metadata.files]
@@ -473,6 +481,9 @@ coverage = [
 django = [
     {file = "Django-3.0.3-py3-none-any.whl", hash = "sha256:c91c91a7ad6ef67a874a4f76f58ba534f9208412692a840e1d125eb5c279cb0a"},
     {file = "Django-3.0.3.tar.gz", hash = "sha256:2f1ba1db8648484dd5c238fb62504777b7ad090c81c5f1fd8d5eb5ec21b5f283"},
+]
+django-admin-action-buttons = [
+    {file = "django-admin-action-buttons-0.1.4.tar.gz", hash = "sha256:b198ff768d615218c8612e26e8d67b497e4ee2f07c08c14de45a8d75214d7186"},
 ]
 django-celery-beat = []
 django-timezone-field = [
