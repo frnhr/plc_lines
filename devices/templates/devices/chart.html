@@ -1,0 +1,37 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PLC Lines</title>
+    <script src="{% static 'apexcharts/dist/apexcharts.min.js' %}"></script>
+    <style>
+        #plc_online_chart {
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+<div id="plc_online_chart"></div>
+<script>
+    var options = {
+        chart: {
+            type: 'bar',
+            height: 300,
+        },
+        series: [{
+            name: 'sales',
+            data: [30,40,35,50,49,60,70,91,125]
+        }],
+        xaxis: {
+            categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
+        }
+    }
+
+    var chart = new ApexCharts(document.querySelector("#plc_online_chart"), options);
+
+    chart.render();
+</script>
+</body>
+</html>

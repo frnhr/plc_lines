@@ -3,35 +3,22 @@
 
 {% block extrahead %}
     {{ block.super }}
-    <script src="{% static 'apexcharts/dist/apexcharts.min.js' %}"></script>
+    <style>
+        .chart_iframe {
+            border: none;
+            width: 100%;
+            max-width: 900px;
+            height: 600px;
+            overflow: hidden;
+        }
+    </style>
 {% endblock extrahead %}
 
 {% block footer %}
     <hr />
-    <div id="plc_online_chart"></div>
-    <style>
-        #plc_online_chart {
-            max-width: 900px;
-        }
-    </style>
-    <script>
-        var options = {
-            chart: {
-                type: 'bar',
-                height: 300,
-            },
-            series: [{
-                name: 'sales',
-                data: [30,40,35,50,49,60,70,91,125]
-            }],
-            xaxis: {
-                categories: [1991,1992,1993,1994,1995,1996,1997, 1998,1999]
-            }
-        }
-
-        var chart = new ApexCharts(document.querySelector("#plc_online_chart"), options);
-
-        chart.render();
-    </script>
+    <hr />
+    <iframe src="{% url 'devices:plc_chart' %}" class="chart_iframe">
+        <a href="{% url 'devices:plc_chart' %}">Chart</a>
+    </iframe>
     {{ block.super }}
 {% endblock footer %}
