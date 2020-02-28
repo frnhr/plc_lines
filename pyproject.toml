@@ -7,10 +7,15 @@ authors = ["Fran Hrzenjak <fran.hrzenjak@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.8"
 django = "^3.0.3"
-pylogix = {git = "https://github.com/dmroeder/pylogix"}
+pylogix = {git = "https://github.com/dmroeder/pylogix"}  # not published on pypi?
+celery = "^4.4.0"
+six = "^1.14.0"
+django-celery-beat = {git = "https://github.com/celery/django-celery-beat"}  # waiting for: https://github.com/celery/django-celery-beat/issues/308
+redis = "^3.4.1"
 
 [tool.poetry.dev-dependencies]
 model-mommy = "^2.0.0"
+coverage = "^5.0.3"
 
 [build-system]
 requires = ["poetry>=0.12"]
