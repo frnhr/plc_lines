@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.db import models
+from django.utils.module_loading import import_string
 
 
 class PLC(models.Model):
@@ -13,5 +15,12 @@ class PLC(models.Model):
     def __str__(self) -> str:
         return self.ip
 
+    @staticmethod
+    def get_reader_class():
+        class_path = settings.PLC_READER_CLASS
+        return import_string(class_path)
+
     def read(self):
-        raise NotImplementedError()
+        reader_class = self.get_reader_class()
+        reader = reader_class(self.ip, self.variable)
+        return reader.read()

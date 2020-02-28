@@ -126,4 +126,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
 
 
+PLC_READER_CLASS = 'devices.readers.FakeReader'
 FAKE_READER_FILE = os.path.join(BASE_DIR, 'FAKE_PLC.json')
