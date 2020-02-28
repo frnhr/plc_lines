@@ -73,7 +73,7 @@ function renderChart() {
         // Add the Legend
         svg.append("text")
             .attr("x", (legendSpace/2)+i*legendSpace)  // space legend
-            .attr("y", height + (margin.bottom/2)+ 5)
+            .attr("y", height + (margin.bottom / 2) + 45)
             .attr("class", "legend")    // style the legend
             .style("fill", function() { // Add the colours dynamically
                 return d.color = color(d.key); })
@@ -96,7 +96,10 @@ function renderChart() {
     svg.append("g")
         .attr("class", "axis")
         .attr("transform", "translate(0," + height + ")")
-        .call(d3.axisBottom(x));
+        .call(d3.axisBottom(x))
+        .selectAll("text")
+        .attr("transform", "translate(-15 20) rotate(315)")
+    ;
 
     // Add the Y Axis
     svg.append("g")
