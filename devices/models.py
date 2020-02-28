@@ -92,9 +92,13 @@ class PLC(models.Model):
     @classmethod
     def get_multiple_uptimes(
             cls, plc_ids: Iterable[int], date_min: date, date_max: date):
-        plcs = cls.objects.filter(id__in=plc_ids)
+        plcs = cls.objects.all()
+
         return {
-            plc.id: dict(plc.get_uptimes(date_min, date_max))
+            plc.id: (
+                dict(plc.get_uptimes(date_min, date_max))
+                if plc.id in plc_ids else {}
+            )
             for plc in plcs
         }
 

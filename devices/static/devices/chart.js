@@ -44,6 +44,7 @@ function renderChart() {
     // Prepare the data
     window.data.forEach(function(d) {
         d.date = parseDate(d.date);
+        d.uptime = d.uptime === null ? undefined : d.uptime;
     });
 
     // Scale the range of the data
@@ -54,19 +55,17 @@ function renderChart() {
     var dataNest = d3.nest()
         .key(function(d) {return d.symbol;})
         .entries(data);
-
     // set the colour scale
     var color = d3.scaleOrdinal(d3.schemeCategory10);
-
     legendSpace = width/dataNest.length; // spacing for the legend
 
     // Loop through each symbol / key
     dataNest.forEach(function(d,i) {
-
+        const c = color(i);
         svg.append("path")
             .attr("class", "line")
             .style("stroke", function() { // Add the colours dynamically
-                return d.color = color(d.key); })
+                return d.color = c; })
             .attr("id", 'tag'+d.key.replace(/\s+/g, '')) // assign an ID
             .attr("d", plcline(d.values));
 
@@ -76,10 +75,10 @@ function renderChart() {
             .attr("y", height + (margin.bottom / 2) + 45)
             .attr("class", "legend")    // style the legend
             .style("fill", function() { // Add the colours dynamically
-                return d.color = color(d.key); })
+                return d.color = c; })
             .on("click", function(){
                 // Determine if current line is visible
-                var active   = d.active ? false : true,
+                var active = d.active ? false : true,
                     newOpacity = active ? 0 : 1;
                 // Hide or show the elements based on the ID
                 d3.select("#tag"+d.key.replace(/\s+/g, ''))
@@ -89,7 +88,6 @@ function renderChart() {
                 d.active = active;
             })
             .text(d.key);
-
     });
 
     // Add the X Axis
@@ -104,10 +102,8 @@ function renderChart() {
     // Add the Y Axis
     svg.append("g")
         .attr("class", "axis")
-        .call(d3.axisLeft(y));
-
-};
-
+        .call(d3.axisLeft(y).tickFormat(d3.format(".2p")));
+}
 
 document.addEventListener("DOMContentLoaded", initDatepickers);
 document.addEventListener("DOMContentLoaded", renderChart);

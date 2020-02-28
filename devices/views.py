@@ -104,9 +104,9 @@ class PLCChartView(FormView):
             {
                 "symbol": f"{plc}",
                 "date": date.strftime("%Y-%m-%d"),
-                "uptime": uptimes[plc.id][date],
+                "uptime": uptimes.get(plc.id, {}).get(date, None),
             }
             for i, date in enumerate(date_range)
-            for plc in plcs
+            for plc in PLC.objects.all()
         ]
         return json.dumps(data)
