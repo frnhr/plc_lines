@@ -1,6 +1,10 @@
 
 body { font: 12px Arial;}
 
+#universe {
+    max-width: 900px;
+}
+
 path {
     stroke: steelblue;
     stroke-width: 2;
@@ -19,4 +23,24 @@ path {
     font-size: 16px;
     font-weight: bold;
     text-anchor: middle;
+}
+
+#id_plcs li {
+    display: inline-block;
+    width: 200px;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
 }

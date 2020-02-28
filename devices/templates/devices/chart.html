@@ -14,14 +14,35 @@
     <script src="{{request.scheme}}://{{request.META.HTTP_HOST}}{% static 'devices/chart.js' %}"></script>
 </head>
 <body>
-<h1>PLC Chart</h1>
+<div id="universe">
+    <h1>PLC Chart</h1>
 
-<form class="screenOnly">
-    {{ form }}
-    <button>Draw</button>
-</form>
+    <form class="screenOnly">
+        <div>
+            <label>
+                {{ form.date_min.label }}:
+                {{ form.date_min }}
+                {{ form.date_min.errors }}
+            </label>
+            <label>
+                {{ form.date_max.label }}:
+                {{ form.date_max }}
+                {{ form.date_max.errors }}
+            </label>
+        </div>
+        <div>
+            <label>
+                {{ form.plcs.label }}:
+                {{ form.plcs.errors }}
+                {{ form.plcs }}
+            </label>
+        </div>
+        <button>Draw</button>
+    </form>
 
-<div class="chart"></div>
+    <div class="chart"></div>
+
+</div>
 
 <script>
     window.data = {{ chart_data|safe }};
