@@ -45,9 +45,7 @@ class PLCChartView(FormView):
         }
 
         if self.request.GET.get("date_min") is not None:
-            kwargs.update(
-                {"data": self.request.GET,}
-            )
+            kwargs.update({"data": self.request.GET},)
         return kwargs
 
     def get_initial(self):
