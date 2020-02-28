@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media')
+
+
+FAKE_READER_FILE = os.path.join(BASE_DIR, 'FAKE_PLC.json')

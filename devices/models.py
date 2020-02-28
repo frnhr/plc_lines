@@ -10,7 +10,7 @@ class PLC(models.Model):
     class Meta:
         verbose_name = "PLC"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.ip
 
     def read(self):

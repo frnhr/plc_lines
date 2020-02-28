@@ -1,0 +1,5 @@
+{
+  "10.0.1.11":  {"tag_name":  "MyVar", "value": 42, "status": 0},
+  "10.0.1.12":  {"tag_name":  "MyVar", "value": null, "status": 0},
+  "10.0.1.13":  {"tag_name":  "MyVar", "value": 33, "status": 3}
+}
