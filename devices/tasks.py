@@ -22,8 +22,10 @@ def read_plc(plc_id: int):
 
 @app.task
 def fanout_read_all_plcs():
-    reading_group = group([
-        read_plc.signature((plc_id,))
-        for plc_id in PLC.objects.all().values_list('id', flat=True)
-    ])
+    reading_group = group(
+        [
+            read_plc.signature((plc_id,))
+            for plc_id in PLC.objects.all().values_list("id", flat=True)
+        ]
+    )
     reading_group.apply_async()

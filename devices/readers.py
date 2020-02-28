@@ -42,6 +42,7 @@ class FakeReader(ReaderBase):
 
     Edit FAKE_PLC.json file to change the value which is read.
     """
+
     def _read(self) -> Response:
         with open(settings.FAKE_READER_FILE) as fake_reader_file:
             fake_plcs = json.loads(fake_reader_file.read())
@@ -51,6 +52,7 @@ class FakeReader(ReaderBase):
 
 class PLCReader(ReaderBase):
     """Real PLC reader."""
+
     def _read(self) -> Response:
         with PLC() as comm:
             comm.Micro800 = True

@@ -11,6 +11,7 @@ class PLCAdmin(admin.ModelAdmin):
 
     def is_online(self, obj) -> Optional[bool]:
         return obj.is_online
+
     is_online.boolean = True
 
 

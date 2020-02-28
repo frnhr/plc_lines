@@ -17,7 +17,8 @@ class PLC(models.Model):
     ip = models.GenericIPAddressField(null=False, blank=False)
     variable = models.CharField(max_length=100, null=False, blank=False)
     expected_value = models.CharField(
-        max_length=100, null=False, blank=True, default="")
+        max_length=100, null=False, blank=True, default=""
+    )
 
     class Meta:
         verbose_name = "PLC"
@@ -55,11 +56,14 @@ class Alert(models.Model):
     """
     An alert os created whenever a PLC changes state.
     """
+
     plc = models.ForeignKey(
-        PLC, models.CASCADE, related_name="alerts", null=True, editable=False)
+        PLC, models.CASCADE, related_name="alerts", null=True, editable=False
+    )
     online = models.BooleanField(null=False, editable=False)
     timestamp = models.DateTimeField(
-        null=False, auto_now_add=True, editable=False, db_index=True)
+        null=False, auto_now_add=True, editable=False, db_index=True
+    )
 
     class Meta:
         ordering = ("timestamp", "plc")
