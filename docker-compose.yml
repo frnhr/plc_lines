@@ -5,6 +5,7 @@ services:
     build: .
     image: plc_lines
     container_name: web
+    command: ["bin/wait-for-db", "postgres", "--", "bin/start-server"]
     volumes:
       - .:/opt/app
     ports:
@@ -14,11 +15,14 @@ services:
       - postgres
     environment:
       - DJANGO_SETTINGS_MODULE=_plc_lines.settings.docker
+      - POSTGRES_DB=plc_lines
+      - POSTGRES_USER=plc_lines
+      - POSTGRES_PASSWORD=plc_lines
 
   celery:
     image: plc_lines
     container_name: celery
-    command: bin/celery
+    command: ["bin/wait-for-db", "postgres", "--", "bin/celery"]
     depends_on:
       - redis
       - postgres
@@ -26,6 +30,9 @@ services:
       - .:/opt/app
     environment:
       - DJANGO_SETTINGS_MODULE=_plc_lines.settings.docker
+      - POSTGRES_DB=plc_lines
+      - POSTGRES_USER=plc_lines
+      - POSTGRES_PASSWORD=plc_lines
 
   redis:
     image: redis
