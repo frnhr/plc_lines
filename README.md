@@ -169,19 +169,19 @@ a production-ready useful web app.
 ## TODO / Ideas
 
  - [ ] Add options for uptime granularity
-        * Currently uptime is always calculated on day-by-day basis.
-        * If date range is sufficiently small, it makes sense to use hour as the base for uptime 
-          calculation
-        * Conversely, if the range is sufficiently large, is might make sense to use week of month
-          as the base of calculation.
+    * Currently uptime is always calculated on day-by-day basis.
+    * If date range is sufficiently small, it makes sense to use hour as the base for uptime 
+      calculation
+    * Conversely, if the range is sufficiently large, is might make sense to use week of month
+      as the base of calculation.
  - [ ] Improve support for greater number of PLC devices on the chart
-        * ... and/or limit the number of devices on the chart.
-        * Currently the labels in legend will tilt to accommodate more then 5 lines.
+     * ... and/or limit the number of devices on the chart.
+     * Currently the labels in legend will tilt to accommodate more then 5 lines.
  - [ ] Daemonize Celery properly
-        * Celery beat should be a service.
-        * Maybe workers, too.
+     * Celery beat should be a service.
+     * Maybe workers, too.
  - [ ] Make use of Redis for cache.
-        * Not really using cache (explicitly) at the moment.
-        * Configure `CACHES` to use Redis.
-        * Be sure to set a prefix to avoid conflicts with Celery broker (but don't
-          use multiple databases).   
+     * Not really using cache (explicitly) at the moment.
+     * Configure `CACHES` to use Redis.
+     * Be sure to set a prefix to avoid conflicts with Celery broker (but don't
+       use multiple databases).   
