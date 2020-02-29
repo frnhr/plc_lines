@@ -64,7 +64,12 @@ function renderChart() {
         .entries(data);
     // set the colour scale
     var color = d3.scaleOrdinal(d3.schemeCategory10);
-    var legendSpace = width / dataNest.length; // spacing for the legend
+
+    var legendCount = 0;
+    dataNest.forEach(function(d, i) {
+        if (d.values[0].uptime !== undefined) legendCount++;
+    });
+    var legendSpace = legendCount ? width / legendCount : width; // spacing for the legend
 
     // Loop through each symbol / key
     var legend_i = -1;
@@ -79,10 +84,16 @@ function renderChart() {
             .attr("d", plcline(d.values))
         ;
 
+
         // Add the Legend
+        var x_pos = (legendSpace/2 + legend_i * legendSpace) - 20;
+        var y_pos = (height + (margin.bottom / 2) + 55);
+        var rot = 25 * Math.min(1, Math.max(0, (legendCount - 4) / 3));
         svg.append("text")
-            .attr("x", (legendSpace/2) + legend_i * legendSpace)  // space legend
-            .attr("y", height + (margin.bottom / 2) + 45)
+            .attr("transform", "rotate(" + rot + " " + x_pos + " " + y_pos +")")
+            .attr("text-anchor","middle")
+            .attr("x", x_pos )  // space legend
+            .attr("y", y_pos )
             .attr("class", "legend")    // style the legend
             .style("fill", function() { return d.color = c; })
             // .on("click", function(){  # toggle line visibility
@@ -97,8 +108,6 @@ function renderChart() {
             //     d.active = active;
             // })
             .text(d.key)
-            .selectAll("text")
-            .attr("transform", "translate(15 200) rotate(315)")
         ;
     });
 
