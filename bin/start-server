@@ -2,6 +2,10 @@
 
 cd "${0%/*}/.."
 
+npm i
+./manage.py collectstatic --clear --noinput
 ./manage.py init_db_and_data
+
+touch .inited-web
 
 gunicorn --bind 0.0.0.0:8000 --workers 3 "_plc_lines.wsgi:application"

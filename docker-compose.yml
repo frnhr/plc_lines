@@ -5,7 +5,7 @@ services:
     build: .
     image: plc_lines
     container_name: web
-    command: ["bin/wait-for-db", "postgres", "--", "bin/start-server"]
+    command: ["bin/wait-for-db", "postgres", "bin/start-server"]
     volumes:
       - .:/opt/app
     ports:
@@ -22,7 +22,7 @@ services:
   celery:
     image: plc_lines
     container_name: celery
-    command: ["bin/wait-for-db", "postgres", "--", "bin/celery"]
+    command: ["bin/wait-for-file", ".inited-web", "bin/celery"]
     depends_on:
       - redis
       - postgres

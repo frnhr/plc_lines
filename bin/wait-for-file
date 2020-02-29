@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+init_flag_file="$1"
+shift
+cmd="$@"
+
+until [ -f "$init_flag_file" ]; do
+  >&2 echo "Init flag not found - sleeping"
+  sleep 1
+done
+
+>&2 echo "Init flag found - executing command"
+exec $cmd

@@ -8,10 +8,7 @@ RUN npm install npm@latest -g
 RUN pip install -U pip poetry && \
     poetry config virtualenvs.create false
 COPY . /opt/app/
-RUN poetry install && \
-    npm -v && \
-    npm i && \
-    python manage.py collectstatic --clear --noinput
+RUN poetry install
 
 EXPOSE 8000
 STOPSIGNAL SIGTERM
