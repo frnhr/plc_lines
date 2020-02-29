@@ -113,7 +113,7 @@ A few JS libraries were tested for charts:
     - my first choice
  * [Chart.js](https://www.chartjs.org)
     - second choice
- * [#d](https://d3js.org)
+ * [D3](https://d3js.org)
     - final choice 
      
 The choice came down to compatibility with pdfkit's HTML to PDF renderer.
