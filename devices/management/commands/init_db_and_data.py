@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.contrib.auth.models import User
 from django.core.management import execute_from_command_line
 from django.core.management.base import BaseCommand
-from django.db import OperationalError
+from django.db import OperationalError, ProgrammingError
 from django.utils import timezone
 from django_celery_beat.models import PeriodicTask, IntervalSchedule
 from freezegun import freeze_time
@@ -17,7 +17,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         try:
             PLC.objects.all().count()
-        except OperationalError:
+        except (OperationalError, ProgrammingError):
             self.stdout.write("Migrating!")
             self._migrate()
         else:
@@ -80,12 +80,6 @@ class Command(BaseCommand):
             variable="MyVar",
             expected_value="42",
         )
-        for i in range(4, 10):
-            PLC.objects.create(
-                ip=f"10.0.0.{i}{i}",
-                variable="MyVar",
-                expected_value="42",
-            )
         now = timezone.now()
         days_ago_3_noon = (now - timedelta(days=3)).replace(
             hour=12, minute=0, second=0, microsecond=0)

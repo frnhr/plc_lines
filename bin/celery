@@ -5,6 +5,9 @@
 
 # Ref: http://docs.celeryproject.org/en/latest/userguide/periodic-tasks.html#starting-the-scheduler
 
+
+sleep 2  # waiting for manage.py init_db_and_data
+
 celery -A _plc_lines worker \
        --loglevel info \
        --beat \

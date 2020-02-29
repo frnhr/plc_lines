@@ -14,3 +14,15 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "plc_lines",
+        "USER": "plc_lines",
+        'PASSWORD': "plc_lines",
+        'HOST': "postgres",
+        'PORT': "5432"
+    }
+}
