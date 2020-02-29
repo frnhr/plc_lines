@@ -4,6 +4,7 @@ from datetime import timedelta
 
 import pdfkit
 from django.conf import settings
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
 from django.template.response import SimpleTemplateResponse
@@ -19,7 +20,7 @@ __all__ = [
 from .models import PLC
 
 
-class PLCChartView(FormView):
+class PLCChartView(LoginRequiredMixin, FormView):
     template_name = "devices/chart.html"
     form_class = PLCChartForm
 
