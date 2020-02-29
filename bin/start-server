@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+cd "${0%/*}/.."
+
+./manage.py init_db_and_data
+
+gunicorn --bind 0.0.0.0:8000 --workers 3 "_plc_lines.wsgi:application"

@@ -52,7 +52,7 @@ class PLCChartView(FormView):
         today = now().date()
         return {
             "date_min": today - timedelta(days=31),
-            "date_max": today,
+            "date_max": today + timedelta(days=1),
             "plcs": PLC.objects.all(),
         }
 

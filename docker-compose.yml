@@ -1,0 +1,47 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    image: plc_lines
+    container_name: web
+    volumes:
+      - .:/opt/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+      - postgres
+    environment:
+      - DJANGO_SETTINGS_MODULE=_plc_lines.settings.docker
+
+  celery:
+    image: plc_lines
+    container_name: celery
+    command: bin/celery
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - .:/opt/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=_plc_lines.settings.docker
+
+  redis:
+    image: redis
+    hostname: redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - HOSTNAME=redis
+    command: redis-server
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: plc_lines
+      POSTGRES_PASSWORD: plc_lines
